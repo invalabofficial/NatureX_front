@@ -41,6 +41,21 @@ export default function NewOrgPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const res = await fetch(
+      new URL('/organizations', process.env.NEXT_PUBLIC_NATUREX_BACKEND),
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(formData),
+      },
+    );
+
+    if (!res.ok) {
+      console.error('조직 생성 실패', await res.text());
+      return;
+    }
+
     router.push('/admin/orgs');
   };
 
