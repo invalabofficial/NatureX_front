@@ -10,6 +10,9 @@ export interface Project {
 export interface Widget {
   id: string;
   type: string;
+  enabled: boolean;
+  permission: string;
+  order: number;
   [key: string]: unknown;
 }
 
