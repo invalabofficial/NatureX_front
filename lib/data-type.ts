@@ -1,3 +1,20 @@
+export interface Org {
+  id: string;
+  name: string;
+}
+
+const orgStorage: Org[] = [];
+
+export function getOrgs(): Org[] {
+  return orgStorage;
+}
+
+export function createOrg(name: string): Org {
+  const org: Org = { id: crypto.randomUUID(), name };
+  orgStorage.push(org);
+  return org;
+}
+
 export const enum UserRole {
   ADMIN = 'ADMIN',
   USER = 'USER',

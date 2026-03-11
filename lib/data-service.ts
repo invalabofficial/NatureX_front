@@ -1,3 +1,5 @@
+export const customerOrgMap: Record<string, string> = {};
+
 const BACKEND = process.env.NEXT_PUBLIC_NATUREX_BACKEND!;
 
 function url(path: string) {
