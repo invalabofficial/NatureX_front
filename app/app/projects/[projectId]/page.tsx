@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import { ServiceWorkflowCard } from '@/components/service-workflow-card';
 import { useToast } from '@/hooks/use-toast';
+import { type Project, type Widget, getProjectById, getWidgetConfig } from '@/lib/project-storage';
 
 export default function ProjectDashboardPage() {
   const params = useParams();
