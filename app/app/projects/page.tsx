@@ -60,8 +60,10 @@ const themeConfig = {
 };
 
 const statusConfig = {
-  planning: { label: '계획', color: 'bg-yellow-100 text-yellow-700' },
-  'in-progress': { label: '진행중', color: 'bg-blue-100 text-blue-700' },
+  pending: { label: '요청', color: 'bg-yellow-100 text-yellow-700' },
+  analyzing: { label: '분석 중', color: 'bg-blue-100 text-blue-700' },
+  delivering: { label: '납품 중', color: 'bg-orange-100 text-orange-700' },
+  executing: { label: '실행 중', color: 'bg-purple-100 text-purple-700' },
   completed: { label: '완료', color: 'bg-green-100 text-green-700' },
 };
 
@@ -74,12 +76,9 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     if (!user) return;
-    const loadedProjects = getProjects(user.role, user.orgId);
-    const sorted = loadedProjects.sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    );
-    setProjects(sorted);
+    getProjects().then((loadedProjects) => {
+      setProjects(loadedProjects);
+    });
   }, [user]);
 
   const handleDeleteClick = (projectId: string, e: React.MouseEvent) => {
@@ -106,8 +105,8 @@ export default function ProjectsPage() {
   };
 
   const canDeleteProject = (project: Project) => {
-    if (user?.role === 'ADMIN') return true;
-    if (user?.role === 'USER' && user.orgId === project.orgId) return true;
+    if (user?.roles.includes('ADMIN' as any)) return true;
+    if (user?.roles.includes('USER' as any) && user.organizationId === project.orgId) return true;
     return false;
   };
 
@@ -156,10 +155,10 @@ export default function ProjectsPage() {
                 themeConfig.efficiency;
               const ThemeIcon = theme.icon;
               const status =
-                statusConfig[project.status as keyof typeof statusConfig] ??
-                statusConfig.planning;
+                statusConfig[project.deliveryStage as keyof typeof statusConfig] ??
+                statusConfig.pending;
               const customerLabel =
-                user?.role === 'ADMIN'
+                user?.roles.includes('ADMIN' as any)
                   ? customerOrgMap[project.orgId as keyof typeof customerOrgMap]
                   : null;
 

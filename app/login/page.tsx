@@ -22,14 +22,9 @@ function LoginPageContent() {
     }
   }, [user, router]);
 
-  const handleAdminLogin = async () => {
-    if (isLoading) {
-      return;
-    }
-    setIsLoading(true);
-    await login('admin@naturex.example', 'pw_hash_admin_01');
-    router.push('/admin');
-    setIsLoading(false);
+  const handleAdminLogin = () => {
+    if (isLoading) return;
+    window.location.href = `${process.env.NEXT_PUBLIC_NATUREX_BACKEND}/auth/google`;
   };
 
   const handleCustomerLogin = async () => {
@@ -80,7 +75,7 @@ function LoginPageContent() {
                   onClick={handleAdminLogin}
                   className="h-9 px-4 bg-[#118DFF] hover:bg-[#0D6FCC] text-white text-sm font-medium rounded-lg"
                 >
-                  로그인
+                  Google로 로그인
                 </Button>
               </div>
 
@@ -89,21 +84,11 @@ function LoginPageContent() {
                 <div className="bg-[#F9FAFB] rounded-lg p-3 border border-[#E5E7EB]">
                   <div className="flex justify-between items-start mb-1">
                     <span className="text-xs font-medium text-[#9CA3AF]">
-                      이메일
+                      로그인 방식
                     </span>
                   </div>
                   <div className="font-mono text-xs text-[#374151]">
-                    admin@naturex.example
-                  </div>
-                </div>
-                <div className="bg-[#F9FAFB] rounded-lg p-3 border border-[#E5E7EB]">
-                  <div className="flex justify-between items-start mb-1">
-                    <span className="text-xs font-medium text-[#9CA3AF]">
-                      비밀번호
-                    </span>
-                  </div>
-                  <div className="font-mono text-xs text-[#374151]">
-                    pw_hash_admin_01
+                    Google 계정 인증
                   </div>
                 </div>
                 <div className="text-xs text-[#9CA3AF] pt-1">
