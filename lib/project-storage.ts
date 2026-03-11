@@ -1,6 +1,10 @@
 export interface Project {
   id: string;
   name: string;
+  config?: {
+    managementScope?: string[];
+    [key: string]: unknown;
+  };
 }
 
 const projects: Project[] = [];
