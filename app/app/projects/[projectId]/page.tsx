@@ -32,7 +32,7 @@ export default function ProjectDashboardPage() {
       return;
     }
 
-    if (!preview && user?.role === 'USER' && proj.orgId !== user.orgId) {
+    if (!preview && !user?.roles?.includes('ADMIN' as any) && proj.id !== (user?.organizationId ?? '')) {
       toast({
         title: '접근 권한이 없습니다',
         description: '이 프로젝트에 접근할 수 있는 권한이 없습니다.',
