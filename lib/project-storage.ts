@@ -1,6 +1,9 @@
 export interface Project {
   id: string;
   name: string;
+  location?: string;
+  theme?: string;
+  orgId?: string;
   config?: {
     managementScope?: string[];
     [key: string]: unknown;
