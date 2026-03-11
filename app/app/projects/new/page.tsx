@@ -64,16 +64,16 @@ export default function NewProjectRequestPage() {
   useEffect(() => {
     if (!user) return;
 
-    if (user.role === 'ADMIN') {
+    if (user.roles?.includes('ADMIN')) {
       const orgs = getOrgs();
       setOrganizations(orgs);
-    } else if (user.role === 'USER' && user.orgId) {
-      setSelectedOrgId(user.orgId);
+    } else if (!user.roles?.includes('ADMIN') && user.organizationId) {
+      setSelectedOrgId(user.organizationId);
     }
   }, [user]);
 
   const isFormValid = () => {
-    if (user?.role === 'ADMIN') {
+    if (user?.roles?.includes('ADMIN')) {
       return (
         projectName.trim() !== '' &&
         location.trim() !== '' &&
@@ -102,7 +102,7 @@ export default function NewProjectRequestPage() {
     if (!isFormValid() || !user) return;
 
     const projectId = `proj-${Date.now()}`;
-    const orgId = user.role === 'USER' ? user.orgId! : selectedOrgId;
+    const orgId = !user.roles?.includes('ADMIN') ? user.organizationId! : selectedOrgId;
 
     const existingProjects = JSON.parse(
       localStorage.getItem('naturex_projects') || '[]',
@@ -136,7 +136,7 @@ export default function NewProjectRequestPage() {
 
       <div className="px-8 py-8 max-w-4xl mx-auto space-y-6">
         {/* Admin: Customer Org Selection */}
-        {user?.role === 'ADMIN' && (
+        {user?.roles?.includes('ADMIN') && (
           <div className="bg-white border border-[#E5E7EB] rounded-lg p-6">
             <h2 className="text-base font-semibold text-[#111827] mb-4">
               고객사 선택 *
