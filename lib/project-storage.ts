@@ -16,6 +16,9 @@ export interface Widget {
   enabled: boolean;
   permission: string;
   order: number;
+  title?: string;
+  description?: string;
+  component?: string;
   [key: string]: unknown;
 }
 
